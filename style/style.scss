@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'StratosSkyeng';
+    font-weight: 400;
+    src: url('../fonts/stratosskyengweb-regular.woff') format('woff'), url('../fonts/stratosskyengweb-regular.woff2') format('woff2');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: 'StratosSkyeng';
+    font-weight: 400;
+}
+
+.center {
+    padding-left: calc(50% - 600px);
+    padding-right: calc(50% - 600px);
+}
+
+.app {
+    height: 100vh;
+    width: 100wh;
+    background-color: #004980;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.start__box {
+    height: 459px;
+    width: 489px;
+    background-color: #C2F5FF;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &__title {
+        text-align: center;
+        color: #004980;
+        font-size: 40px;
+        line-height: 48px;
+        margin-bottom: 48px;
+        overflow-wrap: break-word;
+        max-width: 208px;
+    }
+
+    &__btn {
+        background-color: #7AC100;
+        border-radius: 12px;
+        border: none;
+        width: 246px;
+        height: 50px;
+        font-size: 24px;
+        line-height: 32px;
+        color: #FFFFFF;
+    }
+
+}
+
+
+.difficult__box {
+    display: flex;
+    gap: 24px;
+}
+
+.difficult__btn {
+    width: 98px;
+    height: 98px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    font-size: 64px;
+    line-height: 72px;
+    color: #0080C1;
+    border: none;
+    margin-bottom: 67px;
+}
