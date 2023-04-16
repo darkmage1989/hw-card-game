@@ -14,6 +14,7 @@
     <script>
         window.application = {
             app: document.querySelector('.app'),
+            difficult: '',
             blocks: {},
             screens: {},
             renderScreen: function (screenName) {
@@ -26,9 +27,6 @@
             },
             timers: []
         }
-        window.addEventListener("DOMContentLoaded", (event) => {
-            window.application.renderScreen('start');
-        });
         
     </script>
     <script src="js/script.js"></script>
