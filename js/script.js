@@ -1,3 +1,4 @@
+// Экран выбора сложности начало.
 function difficultBlock(container) {
     const difficultBox = document.createElement('div');
     difficultBox.classList.add('difficult__box')
@@ -29,7 +30,45 @@ function difficultScreen() {
     window.application.app.appendChild(startBox);
     window.application.renderBlock('difficult-Block', startBox);
     startBox.appendChild(startBtn);
+    startBtn.addEventListener ('click', ()=> {
+        if (window.application.difficult >= 1) {
+            window.application.renderScreen('game');
+        } else {
+            const errorText = document.createElement('h3');
+            errorText.style.color = 'red';
+            errorText.textContent = 'Выберите сложность';
+            startBox.appendChild(errorText);
+            window.application.timers.push(setInterval(() => {
+                errorText.remove();
+            },2000))
+        }
+    })
     
 }
 window.application.screens['start'] = difficultScreen;
 // window.application.renderScreen('start');
+// Экран выбора сложности конец.
+
+window.addEventListener("DOMContentLoaded", () => {
+    window.application.renderScreen('start');
+    const difficultButtons = document.querySelectorAll ('.difficult__btn');
+difficultButtons.forEach(difficultButton => {
+    difficultButton.addEventListener ('click', ()=> {
+        difficultButtons.forEach(difficultButton =>{
+            difficultButton.classList.remove ('active_btn');
+        })
+        window.application.difficult = difficultButton.textContent;
+        difficultButton.classList.add ('active_btn');
+    })
+});
+});
+function gameScreen() {
+    const gameBox = document.createElement ('section');
+    gameBox.classList.add ('game__box')
+    const gameTitle = document.createElement ('h1');
+    gameTitle.textContent = 'work in progress';
+    window.application.app.appendChild (gameTitle);
+    window.application.app.appendChild(gameBox);
+}
+window.application.screens['game'] = gameScreen;
+// window.application.renderScreen('game');

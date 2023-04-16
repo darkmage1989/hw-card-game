@@ -83,3 +83,10 @@ body {
     border: none;
     margin-bottom: 67px;
 }
+.difficult__btn:hover {
+    border: #0080C1 solid 3px;
+}
+.active_btn {
+    border: #0080C1 solid 3px;
+    background-color: #d4d4d4;
+}
