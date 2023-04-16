@@ -31,7 +31,7 @@ function difficultScreen() {
     window.application.renderBlock('difficult-Block', startBox);
     startBox.appendChild(startBtn);
     startBtn.addEventListener ('click', ()=> {
-        if (window.application.difficult >= 1) {
+        if (window.application.difficult >= 1 && window.application.difficult <=3) {
             window.application.renderScreen('game');
         } else {
             const errorText = document.createElement('h3');
