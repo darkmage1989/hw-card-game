@@ -1,0 +1,160 @@
+@font-face {
+    font-family: StratosSkyeng;
+    font-weight: 400;
+    src: url('../fonts/stratosskyengweb-regular.woff') format('woff'),
+        url('../fonts/stratosskyengweb-regular.woff2') format('woff2');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: StratosSkyeng;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-weight: 400;
+}
+
+.center {
+    padding-left: 26px;
+    padding-right: 26px;
+}
+
+.app {
+    height: 100vh;
+    width: 100vw;
+    background-color: #004980;
+}
+
+.app-difficult {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.start {
+    height: 459px;
+    width: 489px;
+    background-color: #c2f5ff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.start__title {
+    text-align: center;
+    color: #004980;
+    font-size: 40px;
+    line-height: 48px;
+    margin-bottom: 48px;
+    overflow-wrap: break-word;
+    max-width: 208px;
+}
+
+.start__btn {
+    background-color: #7ac100;
+    border-radius: 12px;
+    border: none;
+    width: 246px;
+    height: 50px;
+    font-size: 24px;
+    line-height: 32px;
+    color: #fff;
+}
+
+.difficult {
+    display: flex;
+    gap: 24px;
+}
+
+.difficult__btn {
+    width: 98px;
+    height: 98px;
+    border-radius: 12px;
+    background-color: #fff;
+    font-size: 64px;
+    line-height: 72px;
+    color: #0080c1;
+    border: none;
+    margin-bottom: 67px;
+}
+
+.difficult__btn:hover {
+    border: #0080c1 solid 3px;
+}
+
+.active__btn {
+    border: #0080c1 solid 3px;
+    background-color: #d4d4d4;
+}
+
+.timer {
+    display: flex;
+    width: 155px;
+    height: 88px;
+}
+
+.timer__time {
+    font-weight: 400;
+    font-size: 64px;
+    color: #fff;
+}
+
+.timer__time:not(:last-child)::after {
+    content: '.';
+}
+
+.timer__minutes::before {
+    content: 'min';
+    display: block;
+    font-size: 16px;
+    text-align: end;
+    margin-right: 18px;
+    margin-bottom: -10px;
+}
+
+.timer__seconds::before {
+    content: 'sec';
+    display: block;
+    font-size: 16px;
+    text-align: end;
+    margin-bottom: -10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.header__restart {
+    width: 246px;
+    height: 50px;
+    background: #7ac100;
+    border-radius: 12px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    border: none;
+    color: #fff;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-top: 35px;
+}
+
+.cards__card {
+    height: 133px;
+    width: 95px;
+} /*# sourceMappingURL=style.css.map */
