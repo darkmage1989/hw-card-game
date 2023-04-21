@@ -1,0 +1,37 @@
+{
+    "name": "hw-1.1",
+    "version": "1.0.0",
+    "description": "Карточная игра, найди пару.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "format": "prettier --write ./src/",
+        "lint:js": "eslint ./src/**/*.js",
+        "lint:css": "stylelint ./src/**/*.css",
+        "prepare": "husky install",
+        "lint": "npm run lint:js && npm run lint:css"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/darkmage1989/hw-card-game.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/darkmage1989/hw-card-game/issues"
+    },
+    "homepage": "https://github.com/darkmage1989/hw-card-game#readme",
+    "devDependencies": {
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "husky": "^8.0.3",
+        "prettier": "^2.8.7",
+        "stylelint": "^14.16.1",
+        "stylelint-config-prettier": "^9.0.4",
+        "stylelint-config-standard": "^29.0.0",
+        "stylelint-prettier": "^2.0.0"
+    },
+    "dependencies": {
+        "eslint": "^8.38.0"
+    }
+}
