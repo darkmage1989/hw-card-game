@@ -1,8 +1,8 @@
 @font-face {
     font-family: StratosSkyeng;
     font-weight: 400;
-    src: url('../fonts/stratosskyengweb-regular.woff') format('woff'),
-        url('../fonts/stratosskyengweb-regular.woff2') format('woff2');
+    src: url('/fonts/stratosskyengweb-regular.woff') format('woff'),
+        url('/fonts/stratosskyengweb-regular.woff2') format('woff2');
 }
 
 * {
@@ -69,6 +69,14 @@ body {
     color: #fff;
 }
 
+.start__btn:hover {
+    background: #03e9f4;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03f44b, 0 0 25px #03f423, 0 0 50px #03f43f,
+        0 0 100px #03e9f4;
+}
+
 .difficult {
     display: flex;
     gap: 24px;
@@ -88,11 +96,15 @@ body {
 
 .difficult__btn:hover {
     border: #0080c1 solid 3px;
+    text-shadow: 0 0 5px #20e21a, 0 0 20px #32e668, 0 0 30px #1f8fac,
+        0 0 20px #ff852e;
 }
 
 .active__btn {
-    border: #0080c1 solid 3px;
-    background-color: #d4d4d4;
+    background: #03e9f4;
+    color: #fff;
+    box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 20px #17f403,
+        0 0 40px #03f4cc;
 }
 
 .timer {
@@ -147,14 +159,40 @@ body {
     color: #fff;
 }
 
+.header__restart:hover {
+    background: #03e9f4;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03f44b, 0 0 25px #03f423, 0 0 50px #03f43f,
+        0 0 100px #03e9f4;
+}
+
 .cards {
     display: flex;
+    justify-content: center;
+    width: 680px;
+    margin: auto;
     flex-wrap: wrap;
     gap: 15px;
     padding-top: 35px;
 }
 
-.cards__card {
-    height: 133px;
-    width: 95px;
-} /*# sourceMappingURL=style.css.map */
+.card {
+    max-height: 120px;
+    max-width: 85px;
+}
+
+.turn {
+    animation-name: example;
+    animation-duration: 0.2s;
+}
+
+@keyframes example {
+    from {
+        transform: scale(0, 1);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}

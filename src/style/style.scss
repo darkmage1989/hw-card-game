@@ -1,8 +1,8 @@
 @font-face {
     font-family: StratosSkyeng;
     font-weight: 400;
-    src: url('../fonts/stratosskyengweb-regular.woff') format('woff'),
-        url('../fonts/stratosskyengweb-regular.woff2') format('woff2');
+    src: url('/fonts/stratosskyengweb-regular.woff') format('woff'),
+        url('/fonts/stratosskyengweb-regular.woff2') format('woff2');
 }
 
 * {
@@ -29,6 +29,7 @@ body {
     width: 100vw;
     background-color: #004980;
 }
+
 .app-difficult {
     display: flex;
     align-items: center;
@@ -45,7 +46,6 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
     &__title {
         text-align: center;
         color: #004980;
@@ -66,6 +66,13 @@ body {
         line-height: 32px;
         color: #ffffff;
     }
+    &__btn:hover {
+        background: #03e9f4;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #03f44b, 0 0 25px #03f423, 0 0 50px #03f43f,
+                0 0 100px #03e9f4;
+    }
 }
 
 .difficult {
@@ -82,14 +89,19 @@ body {
         border: none;
         margin-bottom: 67px;
     }
+
     &__btn:hover {
         border: #0080c1 solid 3px;
+        text-shadow: 0 0 5px #20e21a, 0 0 20px #32e668, 0 0 30px #1f8fac,
+            0 0 20px #ff852e;
     }
 }
 
 .active__btn {
-    border: #0080c1 solid 3px;
-    background-color: #d4d4d4;
+    background: #03e9f4;
+    color: #fff;
+    box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 20px #17f403,
+        0 0 40px #03f4cc;
 }
 .timer {
     display: flex;
@@ -136,14 +148,36 @@ body {
         border: none;
         color: #ffffff;
     }
+    &__restart:hover {
+            background: #03e9f4;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #03f44b, 0 0 25px #03f423, 0 0 50px #03f43f,
+                0 0 100px #03e9f4;
+    }
 }
 .cards {
     display: flex;
+    justify-content: center;
+    width: 680px;
+    margin: auto;
     flex-wrap: wrap;
     gap: 15px;
     padding-top: 35px;
-    &__card {
-        height: 133px;
-        width: 95px;
+}
+.card {
+    max-height: 120px;
+    max-width: 85px;
+}
+.turn {
+    animation-name: example;
+    animation-duration: 0.2s;
+}
+@keyframes example {
+    from {
+        transform: scale(0, 1);
+    }
+    to {
+        transform: scale(1, 1);
     }
 }

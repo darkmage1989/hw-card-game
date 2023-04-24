@@ -4,29 +4,9 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./style/style.css" />
         <title>Document</title>
     </head>
-
-    <body>  
+    <body>
         <main class="app"></main>
-        <script>
-            window.application = {
-                app: document.querySelector('.app'),
-                difficult: '',
-                blocks: {},
-                screens: {},
-                renderScreen: function (screenName) {
-                    const app = document.querySelector('.app');
-                    app.textContent = '';
-                    window.application.screens[screenName]();
-                },
-                renderBlock: function (blockName, container) {
-                    window.application.blocks[blockName](container);
-                },
-                timers: [],
-            };
-        </script>
-        <script src="js/script.js"></script>
     </body>
 </html>

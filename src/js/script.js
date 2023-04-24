@@ -1,3 +1,23 @@
+import '../style/style.css';
+import '../js/timer.js';
+
+window.application = {
+    app: document.querySelector('.app'),
+    difficult: '',
+    firstCard: '',
+    blocks: {},
+    screens: {},
+    renderScreen: function (screenName) {
+        const app = document.querySelector('.app');
+        app.textContent = '';
+        window.application.screens[screenName]();
+    },
+    renderBlock: function (blockName, container) {
+        window.application.blocks[blockName](container);
+    },
+    timers: [],
+};
+
 // Экран выбора сложности начало.
 function difficultBlock(container) {
     const difficultBox = document.createElement('div');
@@ -75,13 +95,17 @@ function timerBlock(container) {
     timer.classList.add('timer');
     const timerMinutes = document.createElement('div');
     timerMinutes.classList.add('timer__minutes', 'timer__time');
-    timerMinutes.textContent = '30';
+    timerMinutes.textContent = '00';
     const timerSeconds = document.createElement('div');
     timerSeconds.classList.add('timer__seconds', 'timer__time');
-    timerSeconds.textContent = '30';
+    timerSeconds.textContent = '00';
     const restartGame = document.createElement('button');
     restartGame.classList.add('header__restart');
     restartGame.textContent = 'Начать заново';
+    restartGame.addEventListener('click', () => {
+        window.application.app.textContent = '';
+        gameScreen();
+    });
     container.appendChild(timer);
     timer.appendChild(timerMinutes);
     timer.appendChild(timerSeconds);
@@ -90,23 +114,125 @@ function timerBlock(container) {
 window.application.blocks['timer-Block'] = timerBlock;
 
 function cardsBlock(container) {
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
     const data = new XMLHttpRequest();
-    data.open('GET', './style/face/cards.JSON');
+    data.open('GET', '/images/cards.JSON');
     data.responseType = 'json';
     data.send();
     data.onload = (event) => {
         const data = Object.values(event.target.response);
-        console.log(data);
-        for (let i = 0; i < data.length; i++) {
-            const card = document.createElement('img');
-            card.setAttribute('src', './style/face/hide.svg');
-            card.classList.add('cards_card');
-            container.appendChild(card);
-            card.addEventListener('click', (event) => {
-                card.setAttribute('src', data[i]);
-            });
+        shuffle(data);
+        let cardField = [];
+        for (let i = 0; i < window.application.difficult * 3; i++) {
+            cardField.push(data[i]);
         }
+
+        cardField.forEach((el) => {
+            cardField.push(el);
+        });
+        shuffle(cardField);
+        for (let i = 0; i < cardField.length; i++) {
+            const id = cardField[i].replace('/images/', '');
+            const card = document.createElement('img');
+            card.classList.add('card');
+            card.classList.add('turn');
+            setTimeout(() => {
+                card.classList.remove('turn');
+            }, 1000);
+            card.setAttribute('src', cardField[i]);
+            card.setAttribute('id', id);
+            card.setAttribute('alt', cardField[i]);
+            container.appendChild(card);
+            setTimeout(() => {
+                card.classList.add('turn');
+                card.setAttribute('src', '/images/hide.svg');
+            }, 5000);
+        }
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            setTimeout(() => {
+                card.classList.remove('turn');
+                timer();
+                card.addEventListener('click', cardClick);
+            }, 5300);
+            function cardClick(event) {
+                const trigger = event.target.src;
+                if (
+                    trigger.includes('hide.svg') &&
+                    window.application.firstCard === ''
+                ) {
+                    window.application.firstCard = card.id;
+                    card.setAttribute('src', card.alt);
+                    card.removeEventListener('click', cardClick);
+                    card.classList.add('open');
+                    card.classList.add('turn');
+                } else if (
+                    trigger.includes('hide.svg') &&
+                    event.target.id === window.application.firstCard
+                ) {
+                    card.setAttribute('src', card.alt);
+                    window.application.firstCard = '';
+                    card.removeEventListener('click', cardClick);
+                    card.classList.add('open');
+                    card.classList.add('turn');
+                } else {
+                    alert('Вы проиграли(');
+                    window.application.firstCard = '';
+                    window.application.app.textContent = '';
+                    gameScreen();
+                }
+                const openCards = document.querySelectorAll('.open');
+                if (openCards.length === cards.length) {
+                    setTimeout(() => {
+                        alert('Ну я считаю это победа!');
+                        window.application.app.textContent = '';
+                        gameScreen();
+                    }, 1000);
+                }
+            }
+        });
     };
+    function timer() {
+        const mins = document.querySelector('.timer__minutes');
+        const secs = document.querySelector('.timer__seconds');
+        let S = '00',
+            M = '00',
+            H = '00';
+
+        setInterval(function () {
+            //Плюсик перед строкой преобразует его в число
+            S = +S + 1;
+            //Если результат меньше 10, прибавляем впереди строку '0'
+            if (S < 10) {
+                S = '0' + S;
+            }
+            if (S === 60) {
+                S = '00';
+                //Как только секунд стало 60, добавляем +1 к минутам
+                M = +M + 1;
+                //Дальше то же самое, что и для секунд
+                if (M < 10) {
+                    M = '0' + M;
+                }
+                if (M === 60) {
+                    //Как только минут стало 60, добавляем +1 к часам.
+                    M = '00';
+                    H = +H + 1;
+                    if (H < 10) {
+                        H = '0' + H;
+                    }
+                }
+            }
+            secs.textContent = S;
+            mins.textContent = M;
+            //Тикает всё через одну функцию, раз в секунду.
+        }, 1000);
+    }
 }
 window.application.blocks['card-block'] = cardsBlock;
 
@@ -114,7 +240,7 @@ function gameScreen() {
     const header = document.createElement('header');
     header.classList.add('header', 'center');
     const cardField = document.createElement('section');
-    cardField.classList.add('cards', 'center');
+    cardField.classList.add('cards');
     window.application.renderBlock('timer-Block', header);
     window.application.app.appendChild(header);
     window.application.app.appendChild(cardField);
