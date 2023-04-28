@@ -1,25 +1,21 @@
 import '../style/style.css';
-import '../js/timer.js';
-
 window.application = {
     app: document.querySelector('.app'),
     difficult: '',
     firstCard: '',
     blocks: {},
     screens: {},
-    renderScreen: function (screenName) {
-        const app = document.querySelector('.app');
-        app.textContent = '';
+    renderScreen: function (screenName: string) {
         window.application.screens[screenName]();
     },
-    renderBlock: function (blockName, container) {
+    renderBlock: function (blockName: string, container: HTMLElement) {
         window.application.blocks[blockName](container);
     },
     timers: [],
 };
 
 // Экран выбора сложности начало.
-function difficultBlock(container) {
+function difficultBlock(container: HTMLElement) {
     const difficultBox = document.createElement('div');
     difficultBox.classList.add('difficult');
     const difficultEasy = document.createElement('button');
@@ -38,6 +34,7 @@ function difficultBlock(container) {
 }
 window.application.blocks['difficult-Block'] = difficultBlock;
 function difficultScreen() {
+    window.application.app.classList.add('app-difficult');
     const startTitle = document.createElement('h1');
     const startBox = document.createElement('section');
     startBox.classList.add('start');
@@ -55,6 +52,7 @@ function difficultScreen() {
             window.application.difficult >= 1 &&
             window.application.difficult <= 3
         ) {
+            window.application.app.textContent = '';
             window.application.renderScreen('game');
             window.application.app.classList.remove('app-difficult');
         } else {
@@ -69,14 +67,6 @@ function difficultScreen() {
             );
         }
     });
-}
-window.application.screens['start'] = difficultScreen;
-// window.application.renderScreen('start');
-// Экран выбора сложности конец.
-
-window.addEventListener('DOMContentLoaded', () => {
-    window.application.app.classList.add('app-difficult');
-    window.application.renderScreen('start');
     const difficultButtons = document.querySelectorAll('.difficult__btn');
     difficultButtons.forEach((difficultButton) => {
         difficultButton.addEventListener('click', () => {
@@ -87,10 +77,12 @@ window.addEventListener('DOMContentLoaded', () => {
             difficultButton.classList.add('active__btn');
         });
     });
-});
+}
+window.application.screens['start'] = difficultScreen;
+// window.application.renderScreen('start');
+// Экран выбора сложности конец.
 //экран игры
-
-function timerBlock(container) {
+function timerBlock(container: HTMLElement) {
     const timer = document.createElement('div');
     timer.classList.add('timer');
     const timerMinutes = document.createElement('div');
@@ -104,7 +96,8 @@ function timerBlock(container) {
     restartGame.textContent = 'Начать заново';
     restartGame.addEventListener('click', () => {
         window.application.app.textContent = '';
-        gameScreen();
+        window.application.app.classList.add('app-difficult');
+        window.application.renderScreen('start');
     });
     container.appendChild(timer);
     timer.appendChild(timerMinutes);
@@ -113,21 +106,23 @@ function timerBlock(container) {
 }
 window.application.blocks['timer-Block'] = timerBlock;
 
-function cardsBlock(container) {
-    function shuffle(array) {
+function cardsBlock(container: HTMLElement) {
+    function shuffle(array: string[]) {
         for (let i = array.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
+            const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
-    const data = new XMLHttpRequest();
-    data.open('GET', '/images/cards.JSON');
-    data.responseType = 'json';
-    data.send();
-    data.onload = (event) => {
-        const data = Object.values(event.target.response);
+    const dataRequest = new XMLHttpRequest();
+    dataRequest.open('GET', '/images/cards.JSON');
+    dataRequest.responseType = 'json';
+    dataRequest.send();
+    dataRequest.onload = () => {
+        const target = dataRequest.response;
+        console.log(target);
+        const data: string[] = Object.values(target);
         shuffle(data);
-        let cardField = [];
+        const cardField = [];
         for (let i = 0; i < window.application.difficult * 3; i++) {
             cardField.push(data[i]);
         }
@@ -153,15 +148,17 @@ function cardsBlock(container) {
                 card.setAttribute('src', '/images/hide.svg');
             }, 5000);
         }
-        const cards = document.querySelectorAll('.card');
+        const cards: NodeListOf<HTMLImageElement> =
+            document.querySelectorAll('.card');
         cards.forEach((card) => {
             setTimeout(() => {
                 card.classList.remove('turn');
                 timer();
                 card.addEventListener('click', cardClick);
             }, 5300);
-            function cardClick(event) {
-                const trigger = event.target.src;
+            function cardClick(event: MouseEvent) {
+                const target = event.target as HTMLImageElement;
+                const trigger = target.src;
                 if (
                     trigger.includes('hide.svg') &&
                     window.application.firstCard === ''
@@ -173,7 +170,7 @@ function cardsBlock(container) {
                     card.classList.add('turn');
                 } else if (
                     trigger.includes('hide.svg') &&
-                    event.target.id === window.application.firstCard
+                    target.id === window.application.firstCard
                 ) {
                     card.setAttribute('src', card.alt);
                     window.application.firstCard = '';
@@ -181,57 +178,67 @@ function cardsBlock(container) {
                     card.classList.add('open');
                     card.classList.add('turn');
                 } else {
-                    alert('Вы проиграли(');
-                    window.application.firstCard = '';
-                    window.application.app.textContent = '';
-                    gameScreen();
+                    card.setAttribute('src', card.alt);
+                    card.classList.add('turn');
+                    setTimeout(() => {
+                        //lose
+                        window.application.firstCard = '';
+                        window.application.renderScreen('result-screen');
+                        const image: HTMLImageElement =
+                            document.querySelector('.finish__image')!;
+                        image.setAttribute('src', '/images/lose.svg');
+                        const title: HTMLHeadElement =
+                            document.querySelector('.finish__title')!;
+                        title.textContent = 'Вы проиграли!';
+                    }, 1000);
                 }
                 const openCards = document.querySelectorAll('.open');
                 if (openCards.length === cards.length) {
+                    //win
                     setTimeout(() => {
-                        alert('Ну я считаю это победа!');
-                        window.application.app.textContent = '';
-                        gameScreen();
+                        window.application.renderScreen('result-screen');
                     }, 1000);
                 }
             }
         });
     };
     function timer() {
-        const mins = document.querySelector('.timer__minutes');
-        const secs = document.querySelector('.timer__seconds');
-        let S = '00',
-            M = '00',
-            H = '00';
-
-        setInterval(function () {
-            //Плюсик перед строкой преобразует его в число
-            S = +S + 1;
-            //Если результат меньше 10, прибавляем впереди строку '0'
-            if (S < 10) {
-                S = '0' + S;
-            }
-            if (S === 60) {
-                S = '00';
-                //Как только секунд стало 60, добавляем +1 к минутам
-                M = +M + 1;
-                //Дальше то же самое, что и для секунд
-                if (M < 10) {
-                    M = '0' + M;
+        const timerMinutes = document.querySelector('.timer__minutes');
+        const timerSeconds = document.querySelector('.timer__seconds');
+        let seconds: any = '00',
+            minutes: any = '00',
+            Hour: any = '00';
+        window.application.timers.push(
+            setInterval(() => {
+                seconds = +seconds + 1;
+                if (seconds < 10) {
+                    seconds = '0' + seconds;
                 }
-                if (M === 60) {
-                    //Как только минут стало 60, добавляем +1 к часам.
-                    M = '00';
-                    H = +H + 1;
-                    if (H < 10) {
-                        H = '0' + H;
+                if (seconds === 60) {
+                    seconds = '00';
+                    //Как только секунд стало 60, добавляем +1 к минутам
+                    minutes = +minutes + 1;
+                    //Дальше то же самое, что и для секунд
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
+                    }
+                    if (minutes === 60) {
+                        //Как только минут стало 60, добавляем +1 к часам.
+                        minutes = '00';
+                        Hour = +Hour + 1;
+                        if (Hour < 10) {
+                            Hour = '00' + Hour;
+                        }
                     }
                 }
-            }
-            secs.textContent = S;
-            mins.textContent = M;
-            //Тикает всё через одну функцию, раз в секунду.
-        }, 1000);
+                if (timerSeconds && timerSeconds) {
+                    (timerSeconds as Element).textContent = String(seconds);
+                    (timerMinutes as Element).textContent = String(minutes);
+                }
+
+                //Тикает всё через одну функцию, раз в секунду.
+            }, 1000),
+        );
     }
 }
 window.application.blocks['card-block'] = cardsBlock;
@@ -249,3 +256,57 @@ function gameScreen() {
 window.application.screens['game'] = gameScreen;
 // window.application.renderScreen('game');
 //конец экрана игры;
+
+//Экран результата
+function resultBlock(container: HTMLElement) {
+    const finishContainer = document.createElement('div');
+    finishContainer.classList.add('finish__box');
+    const smile = document.createElement('img');
+    smile.setAttribute('src', '/images/win.svg');
+    smile.classList.add('finish__image');
+    const title = document.createElement('h3');
+    title.textContent = 'Вы выиграли!';
+    title.classList.add('finish__title');
+    const finishTime = document.createElement('p');
+    finishTime.textContent = 'Затраченное время:';
+    finishTime.classList.add('finish__time');
+    const timeNumber = document.createElement('p');
+    timeNumber.classList.add('finish__time_number');
+    const timerMinutes: HTMLDivElement =
+        document.querySelector('.timer__minutes')!;
+    const timerSeconds: HTMLDivElement =
+        document.querySelector('.timer__seconds')!;
+    timeNumber.textContent = `${timerMinutes.textContent!}.${timerSeconds.textContent!}`;
+    const restartGame = document.createElement('button');
+    restartGame.addEventListener('click', () => {
+        window.application.app.textContent = '';
+        window.application.app.classList.add('app-difficult');
+        difficultScreen();
+    });
+    restartGame.classList.add('finish__restart_game');
+    restartGame.textContent = 'Играть снова';
+    window.application.timers.forEach(
+        (timer: string | number | NodeJS.Timeout | undefined) => {
+            clearInterval(timer);
+        },
+    );
+    window.application.timers = [];
+    container.appendChild(finishContainer);
+    finishContainer.appendChild(smile);
+    finishContainer.appendChild(title);
+    finishContainer.appendChild(finishTime);
+    finishContainer.appendChild(timeNumber);
+    finishContainer.appendChild(restartGame);
+}
+window.application.blocks['result-Block'] = resultBlock;
+
+function resultScreen() {
+    const finishBox = document.createElement('div');
+    finishBox.classList.add('finish');
+    window.application.app.prepend(finishBox);
+    window.application.renderBlock('result-Block', finishBox);
+}
+window.application.screens['result-screen'] = resultScreen;
+// window.application.renderScreen('result');
+
+window.application.renderScreen('start');

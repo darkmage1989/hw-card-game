@@ -196,3 +196,71 @@ body {
         transform: scale(1, 1);
     }
 }
+
+.finish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background-color: #004980;
+    background: hsl(206deg 100% 25% / 90%);
+    position: absolute;
+}
+
+.finish__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 480px;
+    height: 460px;
+    background-color: #c2f5ff;
+    border-radius: 12px;
+}
+
+.finish__image {
+    width: 96px;
+    height: 96px;
+    padding-top: 32px;
+    padding-bottom: 8px;
+}
+
+.finish__title {
+    color: #004980;
+    font-size: 40px;
+    line-height: 48px;
+    padding-bottom: 28px;
+}
+
+.finish__time {
+    font-size: 24px;
+    line-height: 32px;
+    padding-bottom: 10px;
+}
+
+.finish__time_number {
+    font-size: 64px;
+    line-height: 72px;
+    padding-bottom: 40px;
+}
+
+.finish__restart_game {
+    width: 246px;
+    height: 50px;
+    background: #7ac100;
+    border-radius: 12px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    border: none;
+    color: #fff;
+}
+
+.finish__restart_game:hover {
+    background: #03e9f4;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #03f44b, 0 0 25px #03f423, 0 0 50px #03f43f,
+        0 0 100px #03e9f4;
+}

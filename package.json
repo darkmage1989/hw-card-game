@@ -6,10 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "format": "prettier --write ./src/",
-        "lint:js": "eslint ./src/**/*.js",
-        "lint:css": "stylelint ./src/**/*.css",
+        "lint:ts": "eslint ./src/**/*.ts",
+        "lint:css": "stylelint ./src/**/*.scss --fix",
         "prepare": "husky install",
-        "lint": "npm run lint:js && npm run lint:css",
+        "lint": "npm run lint:ts && npm run lint:css",
         "build": "cross-env NODE_ENV=production webpack",
         "develop": "cross-env NODE_ENV=development webpack",
         "start": "webpack-dev-server --open"
@@ -25,10 +25,14 @@
     },
     "homepage": "https://github.com/darkmage1989/hw-card-game#readme",
     "devDependencies": {
+        "@babel/eslint-parser": "^7.21.3",
+        "@typescript-eslint/eslint-plugin": "^5.59.1",
+        "@typescript-eslint/parser": "^5.59.1",
         "copy-webpack-plugin": "^11.0.0",
         "cross-env": "^7.0.3",
         "css-loader": "^6.7.3",
         "css-minimizer-webpack-plugin": "^5.0.0",
+        "eslint": "^8.39.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^4.2.1",
         "html-webpack-plugin": "^5.5.1",
@@ -41,11 +45,13 @@
         "stylelint-config-standard": "^29.0.0",
         "stylelint-config-standard-scss": "^8.0.0",
         "stylelint-prettier": "^2.0.0",
+        "ts-loader": "^9.4.2",
+        "typescript": "^5.0.4",
         "webpack": "^5.80.0",
         "webpack-cli": "^5.0.1",
         "webpack-dev-server": "^4.13.3"
     },
     "dependencies": {
-        "eslint": "^8.38.0"
+        "ajv": "^8.12.0"
     }
 }
