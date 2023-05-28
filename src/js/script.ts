@@ -13,6 +13,12 @@ window.application = {
     },
     timers: [],
 };
+function shuffle(array: string[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
 // Экран выбора сложности начало.
 function difficultBlock(container: HTMLElement) {
@@ -105,14 +111,7 @@ function timerBlock(container: HTMLElement) {
     container.appendChild(restartGame);
 }
 window.application.blocks['timer-Block'] = timerBlock;
-
 function cardsBlock(container: HTMLElement) {
-    function shuffle(array: string[]) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
     const dataRequest = new XMLHttpRequest();
     dataRequest.open('GET', '/images/cards.JSON');
     dataRequest.responseType = 'json';
@@ -126,10 +125,7 @@ function cardsBlock(container: HTMLElement) {
         for (let i = 0; i < window.application.difficult * 3; i++) {
             cardField.push(data[i]);
         }
-
-        cardField.forEach((el) => {
-            cardField.push(el);
-        });
+        cardField.forEach((el) => cardField.push(el));
         shuffle(cardField);
         for (let i = 0; i < cardField.length; i++) {
             const id = cardField[i].replace('/images/', '');
@@ -216,14 +212,11 @@ function cardsBlock(container: HTMLElement) {
                 }
                 if (seconds === 60) {
                     seconds = '00';
-                    //Как только секунд стало 60, добавляем +1 к минутам
                     minutes = +minutes + 1;
-                    //Дальше то же самое, что и для секунд
                     if (minutes < 10) {
                         minutes = '0' + minutes;
                     }
                     if (minutes === 60) {
-                        //Как только минут стало 60, добавляем +1 к часам.
                         minutes = '00';
                         Hour = +Hour + 1;
                         if (Hour < 10) {
@@ -235,8 +228,6 @@ function cardsBlock(container: HTMLElement) {
                     (timerSeconds as Element).textContent = String(seconds);
                     (timerMinutes as Element).textContent = String(minutes);
                 }
-
-                //Тикает всё через одну функцию, раз в секунду.
             }, 1000),
         );
     }
@@ -310,3 +301,5 @@ window.application.screens['result-screen'] = resultScreen;
 // window.application.renderScreen('result');
 
 window.application.renderScreen('start');
+
+export { shuffle };

@@ -16,6 +16,7 @@
         "project": ["./tsconfig.json"]
     },
     "parser": "@typescript-eslint/parser",
+    "ignorePatterns": ["script.test.js", "**/vendor/*.js"],
     "rules": {
         "prettier/prettier": [
             "error",
