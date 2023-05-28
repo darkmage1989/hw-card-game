@@ -1,5 +1,5 @@
-const assert = require('node:assert').strict;
-import { shuffle } from './script.js';
+const { it } = require("@jest/globals");
+const {shuffle} = require ("./script")
 
 {
     const numbers = [1, 2, 3, 4, 5];
