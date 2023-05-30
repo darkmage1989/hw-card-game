@@ -1,4 +1,5 @@
 import '../style/style.css';
+import { shuffle } from './units';
 window.application = {
     app: document.querySelector('.app'),
     difficult: '',
@@ -13,13 +14,6 @@ window.application = {
     },
     timers: [],
 };
-function shuffle(array: string[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
 // Экран выбора сложности начало.
 function difficultBlock(container: HTMLElement) {
     const difficultBox = document.createElement('div');
